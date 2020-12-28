@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Formulaire de contact</title>
+	<link rel="stylesheet" type="text/css" href="css/style_formulaire.css">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+	<header>
+		<div id="top_banner">
+			
+		</div>
+	</header>
+	<div id="first_div">
+		<div>
+			<h1>Vous avez un problème ? Nous avons des solutions !</h1>
+			<p>
+				Complétez le formulaire ci-dessous en nous donnant le maximum d'informations sur votre projet, vos problématiques ou vos ambitions. Nous reviendrons vers vous le plus souvent dans la journée. Sinon, n'hésitez pas à nous appeler !
+			</p>
+		</div>
+		<img src="images/contact_client.jpeg" alt="image contact client" width="480" height="320">
+	</div>
+	<div id="wrap_form">
+		<p>Ce formulaire est destiné à nos clients</p>
+		<form enctype="multipart/form-data" method="post" action="contact.php">
+			<div id="div_form">
+				<div>
+					<p>
+						<input type="email" name="email" id="email" placeholder="Email" required>
+					</p>
+					<p>
+						<input type="text" name="nom" id="nomContact" placeholder="Nom" required>
+					</p>
+					<p>
+						<input type="text" name="entreprise" id="nomClient" placeholder="Entreprise" required>
+					</p>
+					<p id="message_email_non_client">
+						Désolé vous ne faites pas partie des clients de notre base de données. Si vous êtes bien client, veuillez envoyer un mail au support technique afin que nous réglons ce problème.
+					</p>
+					<p>
+						<input type="tel" name="tel" id="tel" placeholder="Téléphone" required>
+					</p>
+					<p>
+						<input type="text" name="sujet" placeholder="Sujet" required>
+					</p>
+					<p>
+						<textarea name="message" rows="10" placeholder="Message" required></textarea>
+					</p>
+				</div>
+				<div>
+					<p>Votre demande est-elle extrêmement urgente ?</p>
+			        <p>
+			        	<input type="radio" name="urgent" value="non" checked>
+			        	<label for="non" name="non">NON</label>
+			        	<input type="radio" name="urgent" value="oui">
+			        	<label for="oui" name="oui">OUI</label>
+			        </p>
+
+					<p id="para_uploads">Vous pouvez joindre des fichiers</p>
+			    	<div class="dropzone" id="dropzone">Glissez - déposez vos fichiers ici</div>
+			    	<div id="uploads"></div>
+			 		
+					<input type="submit" name="submit" value="Envoyer ma demande">
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<script type="text/javascript">
+		(function() {
+			var dropzone = document.getElementById('dropzone');
+			var email = document.getElementById('email');
+			var para = document.getElementById('para_uploads');
+			var messageNonClient = document.getElementById('message_email_non_client');
+			// champs du formulaire à pré remplir
+			var nomContact = document.getElementById('nomContact');
+			var nomClient = document.getElementById('nomClient');
+			var tel = document.getElementById('tel');
+
+			email.addEventListener('change', getEmail);
+
+			function getEmail(e){
+				// target.value permet d'obtenir la valeur saisie dans le champs
+				var valeurEmail = e.target.value;
+				var xhr = new XMLHttpRequest();
+				var formData = new FormData();
+				formData.append('valeurEmail', valeurEmail);
+
+				xhr.onload = function(){
+					// Attention la variable reponse ne représente pas le champs rep dans le résultat JSON, elle représente toute la réponse c'est à dire tout le tableau JSON
+					var reponse = JSON.parse(this.responseText);
+					// Si le contact est client alors j'affiche la dropzone
+					if (reponse[0].rep == "oui")
+					{
+						messageNonClient.style = "display: none;";
+						para.style = "display: block;";
+						dropzone.style = "display: block;";
+
+						// je pré remplis les champs nom, entreprise et téléphone à partir du résultat de la requête AJAX
+						nomContact.value = reponse[0].nomContact;
+						nomClient.value = reponse[0].nomClient;
+						tel.value = reponse[0].tel;
+					}
+					else
+					{
+						messageNonClient.style = "display: block;";
+						para.style = "display: none;";
+						dropzone.style = "display: none;";
+					}
+				}
+
+				xhr.open('post', 'is_client.php');
+				xhr.send(formData);
+			}
+			
+			var displayUploads = function(data)
+			{
+				var uploads = document.getElementById('uploads'),
+					anchor,
+					x;
+
+				for(x = 0; x < data.length; x = x + 1)
+				{
+					if (data[x].erreur != undefined)
+					{
+						p = document.createElement('p');
+						p.innerText = data[x].erreur;
+
+						uploads.appendChild(p);
+					}
+					else
+					{
+						div = document.createElement('div');
+
+						anchor = document.createElement('p');
+						anchor.innerText = data[x].name;
+
+						icon = document.createElement('i');
+						icon.className = data[x].icon;
+						
+						input = document.createElement('input');
+						input.name = "id_fichier[]";
+						input.type = "hidden";
+						input.value = data[x].id_fichier;
+
+						div.appendChild(icon);
+						div.appendChild(anchor);				
+						uploads.appendChild(div);
+						uploads.appendChild(input);
+					}
+						
+				}
+					
+			};
+
+			
+			var upload = function(files) {
+				var formData = new FormData(),
+				    xhr = new XMLHttpRequest(),
+				 	x;
+
+				for(x = 0; x < files.length; x = x + 1) {
+					formData.append('file[]', files[x]);
+				}
+				
+				xhr.onload = function() {
+					var data = JSON.parse(this.responseText);
+					displayUploads(data);
+				}
+
+				xhr.open('post', 'upload.php');
+				xhr.send(formData);
+			};
+			
+			
+			dropzone.ondrop = function(e) {
+				e.preventDefault();
+				this.className = "dropzone";
+				upload(e.dataTransfer.files);
+			};
+			
+
+			dropzone.ondragover = function() {
+				this.className = "dropzone dragover";
+				return false;
+			};
+
+			dropzone.ondragleave = function() {
+				this.className = "dropzone";
+				return false;
+			};
+		}());
+	</script>
+</body>
+</html>
+
+
+
+
+

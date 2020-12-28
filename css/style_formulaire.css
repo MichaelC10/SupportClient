@@ -1,0 +1,221 @@
+body{
+	margin: 0px auto;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	font-size: 15px;
+	line-height: 1.6em;
+	color: #000;
+}
+
+#top_banner{
+	background-color: #EF9214;
+	height: 250px;
+}
+
+h1{
+	width: 400px;
+	font-weight: 500;
+	font-size: 2em;
+	line-height: 1.1em; 
+}
+
+#first_div p{
+	width: 400px;
+}
+
+#first_div{
+	margin-top: 100px;
+	margin-bottom: 100px;
+	display: flex;
+	justify-content: center;
+}
+
+#first_div div{
+	margin-right: 60px;
+}
+
+img{
+	margin-top: 20px;
+	margin-left: 60px;
+}
+
+form {
+	margin-bottom: 20px;
+}
+
+#wrap_form>p{
+	text-align: center;
+	font-weight: 500;
+	font-size: 1.8em;
+}
+
+form input[name="nom"]{
+	width: 385px;
+	height: 50px;
+	text-indent: 15px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	font-size: 15px;
+}
+
+form input[name="entreprise"]{
+	width: 385px;
+	height: 50px;
+	text-indent: 15px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	font-size: 15px;
+}
+
+form input[name="email"]{
+	width: 385px;
+	height: 50px;
+	text-indent: 15px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	font-size: 15px;
+}
+
+#message_email_non_client{
+	display: none;
+	width: 385px;
+}
+
+form input[name="tel"]{
+	width: 385px;
+	height: 50px;
+	text-indent: 15px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	font-size: 15px;
+}
+
+form input[name="sujet"]{
+	width: 385px;
+	height: 50px;
+	text-indent: 15px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	font-size: 15px;
+}
+
+form textarea[name="message"]{
+	width: 361px;
+	padding: 15px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	font-size: 15px;
+}
+
+form{
+	border: 7px solid #EF9214;
+	width: 68%;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 45px;
+	padding-bottom: 35px;
+}
+
+#div_form{
+	display: flex;
+	justify-content: center;
+}
+
+/*Pour cibler le premier élément > */
+#div_form>div{
+	margin-right: 50px;
+}
+
+/*Je cible le 2ème élément enfant de la div*/
+#div_form div:nth-child(2){
+	margin-left: 50px;
+	margin-right: 0px;
+	width: 350px;
+}
+
+#div_form div:nth-child(2) p input[value="non"]{
+	margin-right: 8px;
+}
+
+#div_form div:nth-child(2) p label[name="non"]{
+	margin-right: 40px;
+}
+
+#div_form div:nth-child(2) p input[value="oui"]{
+	margin-right: 8px;
+}
+
+#div_form div:nth-child(2) p:nth-child(3){
+	margin-top: 30px;
+}
+
+#div_form div:nth-child(2) input[name="submit"]{
+	width: 170px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	font-size: 15px;
+	color: white;
+	line-height: 1.6em;
+	text-align: center;
+	padding-top: 14px;
+	padding-bottom: 14px;
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: #E7B860;
+	border: none;
+	border-radius: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+	display: block;
+}
+
+#div_form div:nth-child(2) input[name="submit"]:hover{
+	background-color: orange;
+}
+
+#para_uploads{
+	display: none;
+}
+
+.dropzone
+{
+	display: none;
+	width: 350px;
+	height: 175px;
+	border: 2px dashed #ccc;
+	color: #ccc;
+	line-height: 175px;
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 20px;
+}
+
+.dropzone.dragover
+{
+	border-color: #000;
+	color: #000;
+}
+
+#uploads{
+	width: 350px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#uploads div{
+	display: flex;
+	flex-direction: column;
+	width: 30%;
+	margin-left: 10px;
+}
+
+#uploads div p{
+	width: 100%;
+	text-align: center;
+}
+
+.fa-3x{
+	align-self: center;
+}
+
